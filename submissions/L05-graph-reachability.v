@@ -27,7 +27,13 @@ Section graph_reachability.
     forall R S, set_eq (reachable (union R S))
                   (union (reachable R) (reachable S)).
   Proof.
-
+    intros R S x; split; intros H.
+    - induction H.
+      + destruct H; [left | right]; apply reach_root; assumption.
+      + destruct IHreachable; [left | right]; eapply reach_step; eassumption.
+    - destruct H; (induction H; [apply reach_root | eapply reach_step; eassumption ]).
+      + left; assumption.
+      + right; assumption.
   Qed.
 
 End graph_reachability.

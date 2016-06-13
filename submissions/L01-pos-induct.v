@@ -51,7 +51,7 @@ Proof.
     + (* Prove the first assumption of IHp, which corresponds to I,
            but with the specialised P. *)
       (* Look at the next sub-case for some hints. *)
-      admit.
+      change (P (succ bI)). apply S. apply I.
     + (* Prove the second assumption of IHp, which corresponds to S,
            but with the specialised P. *)
       intros q H.
@@ -65,5 +65,8 @@ Proof.
       apply S. apply S. apply H.
   - (* Inductive case b1 *)
     (* Should be somewhat similar to the b0 case! *)
-    admit.
+    apply IHp.
+    + change (P (succ (succ bI))). apply S. apply S. apply I.
+    + intros q H. change (P (succ (succ (b1 q)))).
+      apply S. apply S. apply H.
 Defined.
