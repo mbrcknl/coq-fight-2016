@@ -8,9 +8,8 @@ Lemma imp_disj_peirce:
 Proof.
   unfold peirce, imp_disj.
   intros H P Q I.
-  destruct (H P P (fun p => p)) as [J|J].
+  destruct (H P P (fun p => p)) as [J|J]; eauto.
   apply I; intro K; destruct (J K).
-  apply J.
 Qed.
 
 Lemma peirce_imp_disj:
@@ -18,9 +17,6 @@ Lemma peirce_imp_disj:
 Proof.
   unfold peirce, imp_disj.
   intros H P Q I.
-  apply (H _ False).
-  intros J.
-  left; intros K.
-  apply J.
-  right; apply I; apply K.
+  apply (H _ False); intros J.
+  left. eauto.
 Qed.
