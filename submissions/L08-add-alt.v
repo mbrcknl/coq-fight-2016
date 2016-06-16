@@ -1,5 +1,9 @@
 (* A strange way to specify addition. *)
 
+Require Import Arith.
+Import Nat.
+Require Import Omega.
+
 Inductive added: nat -> nat -> nat -> Prop :=
 | add_z: added 0 0 0
 | add_l: forall m n r, added m n r -> added (S m) n (S r)
