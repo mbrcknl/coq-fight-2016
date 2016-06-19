@@ -1,10 +1,10 @@
 (* Boolean maps *)
 
 Lemma bools_errand:
-  forall (f: bool -> bool) (b: bool), f (f (f (f (f b)))) = f (f (f b)).
+  forall (f: bool -> bool) (b: bool), f (f (f b)) = f b.
 Proof.
-  intros f; destruct b; destruct (f true) eqn:T; destruct (f false) eqn:F;
-  repeat (try rewrite T; try rewrite F); auto.
+  destruct b; destruct (f true) eqn:T; destruct (f false) eqn:F;
+    try (rewrite T); try (rewrite F); auto.
 Qed.
 
 Fixpoint iterate (n: nat) (f: bool -> bool) (x: bool): bool :=
@@ -16,15 +16,9 @@ Fixpoint iterate (n: nat) (f: bool -> bool) (x: bool): bool :=
 Definition twice := iterate 2.
 
 Lemma bools_iterated:
-  forall (f: bool -> bool) (b: bool) (m n: nat),
-    iterate m (twice f) (f b) = iterate n (twice f) (f b).
+  forall (f: bool -> bool) (b: bool) (n: nat), iterate n (twice f) (f b) = f b.
 Proof.
-  intros f b m n.
-  assert (forall k, iterate k (twice f) (f b) = f b).
-  - induction k; simpl.
-    + reflexivity.
-    + rewrite IHk; unfold twice; simpl;
-        destruct b; destruct (f true) eqn:T; destruct (f false) eqn:F;
-        try (rewrite T); try (rewrite F); auto.
-  - rewrite (H m); rewrite (H n); reflexivity.
+  induction n; simpl.
+  - auto.
+  - rewrite IHn. unfold twice; simpl. apply bools_errand.
 Qed.
