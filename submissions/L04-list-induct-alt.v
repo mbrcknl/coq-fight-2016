@@ -1,17 +1,26 @@
 (* An alternate list induction principle. *)
 
-Require Import List.
-Import ListNotations.
+Section list_ind_alt_sect.
 
-Lemma list_ind_alt:
-  forall (A: Type) (P: list A -> Prop),
-    (P []) ->
-    (forall (x: A), P [x]) ->
-    (forall (x y: A) (zs: list A), P zs -> P (x::y::zs)) ->
-    (forall (xs: list A), P xs).
-Proof.
-  intros A P Z I S xs.
-  assert (P xs /\ forall x, P (x :: xs)).
-  induction xs; intuition.
-  intuition.
-Qed.
+  Variables
+    (P: nat -> Prop).
+
+  Hypotheses
+    (P_0: P 0)
+    (P_1: P 1)
+    (P_2: forall n, P n -> P (S (S n))).
+
+  (* You'll need to strengthen the goal before induction,
+     to get a stronger induction hypothesis.
+     Use `assert something` first to achieve this.
+     The `something` must be weak enough to be true in the base case,
+     and strong enough to leapfrog alternate nats in the inductive case.
+     Start by thinking about what you already know in the base case. *)
+  Lemma list_ind_alt (n: nat): P n.
+  Proof.
+    assert (P n /\ P (S n)).
+    induction n; intuition.
+    intuition.
+  Qed.
+
+End list_ind_alt_sect.
