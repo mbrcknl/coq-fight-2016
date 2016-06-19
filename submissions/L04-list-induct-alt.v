@@ -1,6 +1,6 @@
-(* An alternate list induction principle. *)
+(* An alternate nat induction principle. *)
 
-Section list_ind_alt_sect.
+Section nat_ind_alt_sect.
 
   Variables
     (P: nat -> Prop).
@@ -16,9 +16,9 @@ Section list_ind_alt_sect.
      The `something` must be weak enough to be true in the base case,
      and strong enough to leapfrog alternate nats in the inductive case.
      Start by thinking about what you already know in the base case. *)
-  Lemma list_ind_alt (n: nat): P n.
+  Lemma nat_ind_alt (n: nat): P n.
   Proof.
 
   Qed.
 
-End list_ind_alt_sect.
+End nat_ind_alt_sect.
