@@ -1,7 +1,5 @@
 (* A strange way to specify addition. *)
 
-Require Import Arith.
-Import Nat.
 Require Import Omega.
 
 Inductive added: nat -> nat -> nat -> Prop :=
@@ -9,7 +7,7 @@ Inductive added: nat -> nat -> nat -> Prop :=
 | add_l: forall m n r, added m n r -> added (S m) n (S r)
 | add_r: forall m n r, added m n r -> added m (S n) (S r).
 
-Hint Resolve add_z add_l add_r.
+Hint Constructors added.
 
 Lemma added_r:
   forall r, added 0 r r.
@@ -25,10 +23,10 @@ Proof.
   induction 1; omega.
 Qed.
 
-Lemma added_plus_iff:
-  forall m n r, added m n r <-> m + n = r.
+Lemma plus_added:
+  forall m n r, m + n = r -> added m n r.
 Proof.
-  split.
-  - apply added_plus.
-  - revert n r; induction m; simpl; intros n r H; subst; eauto.
+  induction m; simpl; intros n r H.
+  - subst; apply added_r; auto.
+  - destruct r; inversion H. apply add_l. apply IHm. auto.
 Qed.
