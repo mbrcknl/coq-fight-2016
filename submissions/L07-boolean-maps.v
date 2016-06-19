@@ -1,7 +1,7 @@
 (* Boolean maps *)
 
 Lemma bools_errand:
-  forall (f: bool -> bool) (b: bool), f (f (f (f (f b)))) = f (f (f b)).
+  forall (f: bool -> bool) (b: bool), f (f (f b)) = f b.
 Proof.
 
 Qed.
@@ -15,8 +15,7 @@ Fixpoint iterate (n: nat) (f: bool -> bool) (x: bool): bool :=
 Definition twice := iterate 2.
 
 Lemma bools_iterated:
-  forall (f: bool -> bool) (b: bool) (m n: nat),
-    iterate m (twice f) (f b) = iterate n (twice f) (f b).
+  forall (f: bool -> bool) (b: bool) (n: nat), iterate n (twice f) (f b) = f b.
 Proof.
 
 Qed.
