@@ -8,8 +8,8 @@ Section graph_reachability.
   (* We identify a set of elements by its membership predicate. *)
   Definition set: Type := T -> Prop.
 
-  (* Set equality is defined pointwise on membership predicates. *)
-  Definition set_eq (A B: set): Prop := forall x, A x <-> B x.
+  (* The subset relation is defined pointwise on membership predicates. *)
+  Definition subset (A B: set): Prop := forall x, A x -> B x.
   
   (* Likewise, set union. *)
   Definition union (A B: set): set := fun x => A x \/ B x.
@@ -22,10 +22,19 @@ Section graph_reachability.
   | reach_root: forall x, R x -> reachable R x
   | reach_step: forall x y, reachable R x -> step x y -> reachable R y.
 
-  (* Prove that reachability is distributive over set union. *)
+  Hint Constructors reachable.
+
+  (* Prove that reachability is distributive over set union, in two parts. *)
   Lemma reachable_union:
-    forall R S, set_eq (reachable (union R S))
+    forall R S, subset (reachable (union R S))
                   (union (reachable R) (reachable S)).
+  Proof.
+
+  Qed.
+
+  Lemma union_reachable:
+    forall R S, subset (union (reachable R) (reachable S))
+                  (reachable (union R S)).
   Proof.
 
   Qed.
