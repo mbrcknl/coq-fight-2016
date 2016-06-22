@@ -4,33 +4,36 @@ Require Import List.
 Require Import Omega.
 Import ListNotations.
 
-Inductive subseq {A: Type}: list A -> list A -> Prop :=
-| subseq_nil: subseq [] []
-| subseq_add: forall x xs ys, subseq xs ys -> subseq (x::xs) (x::ys)
-| subseq_sub: forall y xs ys, subseq xs ys -> subseq xs (y::ys).
+Section subseq_sect.
 
-Lemma subseq_refl:
-  forall (A: Type) (xs: list A), subseq xs xs.
-Proof.
+  Variable A: Type.
 
-Qed.
+  Inductive subseq: list A -> list A -> Prop :=
+  | subseq_nil: subseq [] []
+  | subseq_add: forall x ys zs, subseq ys zs -> subseq (x::ys) (x::zs)
+  | subseq_sub: forall x ys zs, subseq ys zs -> subseq ys (x::zs).
 
-Lemma subseq_len:
-  forall (A: Type) (xs ys: list A), subseq xs ys -> length xs <= length ys.
-Proof.
+  Hint Constructors subseq.
 
-Qed.
+  Lemma subseq_refl:
+    forall xs, subseq xs xs.
+  Proof.
+  Qed.
 
-(* Choose your induction wisely. *)
-Lemma subseq_trans:
-  forall (A: Type) (xs ys zs: list A), subseq xs ys -> subseq ys zs -> subseq xs zs.
-Proof.
+  Lemma subseq_len:
+    forall xs ys, subseq xs ys -> length xs <= length ys.
+  Proof.
+  Qed.
 
-Qed.
+  Lemma subseq_trans:
+    forall ys zs, subseq ys zs -> forall xs, subseq xs ys -> subseq xs zs.
+  Proof.
+  Qed.
 
-(* Hint: use subseq_len to dispose of nonsense cases. *)
-Lemma subseq_antisym:
-  forall (A: Type) (xs ys: list A), subseq xs ys -> subseq ys xs -> xs = ys.
-Proof.
+  (* Hint: use subseq_len to dispose of nonsense cases. *)
+  Lemma subseq_antisym:
+    forall xs ys, subseq xs ys -> subseq ys xs -> xs = ys.
+  Proof.
+  Qed.
 
-Qed.
+End subseq_sect.
