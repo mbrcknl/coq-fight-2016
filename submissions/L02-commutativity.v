@@ -24,13 +24,7 @@ Section commutative_semigroup_fun.
   Lemma how_do_you_even_rewrite:
     forall a b c d e, a + b + c + d + e = e + d + c + b + a.
   Proof.
-    intros a b c d e.
-    rewrite (comm _ e).
-    rewrite (comm _ d).
-    rewrite (comm _ c).
-    rewrite (comm _ b).
-    repeat (rewrite assoc).
-    reflexivity.
+    intros. congruence.
   Qed.
 
   Lemma fold_left_extract:
